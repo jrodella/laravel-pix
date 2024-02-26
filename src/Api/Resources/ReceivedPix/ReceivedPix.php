@@ -36,7 +36,7 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
         return $this->request()->get($endpoint);
     }
 
-    public function refund(string $e2eid, string $refundId): Response
+    public function refund(string $e2eid, string $refundId, array $request): Response
     {
         $endpoint = $this->getEndpoint(
             $this->baseUrl
@@ -46,7 +46,7 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
             .$refundId
         );
 
-        $refund = $this->request()->put($endpoint);
+        $refund = $this->request()->put($endpoint, $request);
 
         event(new RefundRequestedEvent($refund->json(), $e2eid, $refundId));
 
